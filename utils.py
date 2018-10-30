@@ -1,4 +1,4 @@
-import cPickle
+import pickle
 import itertools
 import codecs
 import numpy as np
@@ -56,8 +56,8 @@ def read_text_embs(files):
 def read_pickle_embs(files):
     word_embs = dict()
     for filename in files:
-        print filename
-        words, embs = cPickle.load(open(filename, "r"))
+        print (filename)
+        words, embs = pickle.load(open(filename, "r"))
         word_embs.update(zip(words, embs))
     return zip(*word_embs.iteritems())
 
@@ -89,7 +89,7 @@ def morphotag_strings(i2ts, tag_mapping, pos_separate_col=True):
 
     # j iterates along sentence, as we're building the string representations
     # in the opposite orientation as the mapping
-    for j in xrange(senlen):
+    for j in range(senlen):
         place_strs = []
         for att, seq in tag_mapping.items():
             val = i2ts[att][seq[j]]

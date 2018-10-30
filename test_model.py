@@ -9,7 +9,7 @@ from evaluate_morphotags import Evaluator
 import collections
 import argparse
 import random
-import cPickle
+import pickle
 import logging
 import progressbar
 import os
@@ -166,12 +166,12 @@ Model input: {}
 """.format(options.dataset, options.use_dev, options.model_file))
 
 if options.debug:
-    print "DEBUG MODE"
+    print ("DEBUG MODE")
 
 # ===-----------------------------------------------------------------------===
 # Read in dataset
 # ===-----------------------------------------------------------------------===
-dataset = cPickle.load(open(options.dataset, "r"))
+dataset = pickle.load(open(options.dataset, "r"))
 w2i = dataset["w2i"]
 t2is = dataset["t2is"]
 c2i = dataset["c2i"]
@@ -179,7 +179,7 @@ i2w = { i: w for w, i in w2i.items() } # Inverse mapping
 i2ts = { att: {i: t for t, i in t2i.items()} for att, t2i in t2is.items() }
 i2c = { i: c for c, i in c2i.items() }
 
-tag_lists = { att: [ i2t[idx] for idx in xrange(len(i2t)) ] for att, i2t in i2ts.items() } # To use in the confusion matrix
+tag_lists = { att: [ i2t[idx] for idx in range(len(i2t)) ] for att, i2t in i2ts.items() } # To use in the confusion matrix
 training_vocab = dataset["training_vocab"]
 if options.use_dev:
     test_instances = dataset["dev_instances"]

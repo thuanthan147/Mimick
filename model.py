@@ -5,12 +5,12 @@ from __future__ import division
 from collections import Counter
 from _collections import defaultdict
 from evaluate_morphotags import Evaluator
-from sys import maxint
+from sys import maxsize
 
 import collections
 import argparse
 import random
-import cPickle
+import pickle
 import logging
 import progressbar
 import os
@@ -240,8 +240,8 @@ if __name__ == "__main__":
     parser.add_argument("--num-epochs", default=20, dest="num_epochs", type=int, help="Number of full passes through training set (default - 20)")
     parser.add_argument("--num-lstm-layers", default=2, dest="lstm_layers", type=int, help="Number of LSTM layers (default - 2)")
     parser.add_argument("--hidden-dim", default=128, dest="hidden_dim", type=int, help="Size of LSTM hidden layers (default - 128)")
-    parser.add_argument("--training-sentence-size", default=maxint, dest="training_sentence_size", type=int, help="Instance count of training set (default - unlimited)")
-    parser.add_argument("--token-size", default=maxint, dest="token_size", type=int, help="Token count of training set (default - unlimited)")
+    parser.add_argument("--training-sentence-size", default=maxsize, dest="training_sentence_size", type=int, help="Instance count of training set (default - unlimited)")
+    parser.add_argument("--token-size", default=maxsize, dest="token_size", type=int, help="Token count of training set (default - unlimited)")
     parser.add_argument("--learning-rate", default=0.01, dest="learning_rate", type=float, help="Initial learning rate (default - 0.01)")
     parser.add_argument("--dropout", default=-1, dest="dropout", type=float, help="Amount of dropout to apply to LSTM part of graph (default - off)")
     parser.add_argument("--no-we-update", dest="no_we_update", action="store_true", help="Word Embeddings aren't updated")
@@ -287,12 +287,12 @@ if __name__ == "__main__":
                options.training_sentence_size, options.token_size, options.learning_rate, options.dropout, options.loss_prop))
 
     if options.debug:
-        print "DEBUG MODE"
+        print ("DEBUG MODE")
 
     # ===-----------------------------------------------------------------------===
     # Read in dataset
     # ===-----------------------------------------------------------------------===
-    dataset = cPickle.load(open(options.dataset, "r"))
+    dataset = pickle.load(open(options.dataset, "r"))
     w2i = dataset["w2i"]
     t2is = dataset["t2is"]
     c2i = dataset["c2i"]
@@ -356,7 +356,7 @@ if __name__ == "__main__":
     logging.info("Number training instances: {}".format(len(training_instances)))
     logging.info("Number dev instances: {}".format(len(dev_instances)))
 
-    for epoch in xrange(int(options.num_epochs)):
+    for epoch in range(int(options.num_epochs)):
         bar = progressbar.ProgressBar()
 
         # set up epoch
@@ -404,7 +404,7 @@ if __name__ == "__main__":
         logging.info("\n")
         logging.info("Epoch {} complete".format(epoch + 1))
         # here used to be a learning rate update, no longer supported in dynet 2.0
-        print trainer.status()
+        print (trainer.status())
 
         train_loss = train_loss / len(train_instances)
 

@@ -12,7 +12,7 @@ c2i: Dict mapping characters to indices
 from _collections import defaultdict
 import codecs
 import argparse
-import cPickle
+import pickle
 import collections
 from utils import split_tagstring
 
@@ -148,7 +148,7 @@ if __name__ == "__main__":
 
     # write outputs to files
     with open(options.output, "w") as outfile:
-        cPickle.dump(output, outfile)
+        pickle.dump(output, outfile)
     with codecs.open(options.vocab_file, "w", "utf-8") as vocabfile:
         for word in w2i.keys():
             vocabfile.write(word + "\n")
